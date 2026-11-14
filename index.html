@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="description" content="Play Tic-Tac-Toe online with a friend or against an unbeatable computer. Free, fast and works on every device.">
+    <title>TicTacToe | Play Online</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=JetBrains+Mono:wght@500;700&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎮</text></svg>">
+<body>
+    <!-- Fixed navigation -->
+    <header class="nav" id="nav">
+        <div class="container nav-inner">
+            <a href="#home" class="logo">Tic<span>Tac</span>Toe</a>
+            <button class="menu-btn" id="menuBtn" aria-label="Toggle menu" aria-expanded="false">
+                <span></span><span></span><span></span>
+            </button>
+            <nav id="menu" class="menu" aria-label="Main">
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#play">Play</a></li>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#how">How to play</a></li>
+                </ul>
+
+                <!-- Shown when logged out -->
+                <div class="auth" id="authBox">
+                    <button class="btn btn-ghost btn-small" id="loginBtn" type="button">Login</button>
+                    <button class="btn btn-small" id="registerBtn" type="button">Register</button>
+                </div>
+
+                <!-- Shown when logged in -->
+                <div class="auth" id="userBox" hidden>
+                    <span class="user-chip" id="userName"></span>
+                    <button class="btn btn-ghost btn-small" id="logoutBtn" type="button">Logout</button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero -->
+        <section id="home" class="hero">
+            <div class="container hero-grid">
+                <div class="hero-copy">
+                    <p class="eyebrow">Free browser game</p>
+                    <h1>The classic game. <em>Zero downloads.</em></h1>
+                    <p class="lead">Challenge a friend on the same screen, play with a friend online, or take on a computer that never makes a mistake.</p>
+                    <div class="hero-actions">
+                        <a href="#play" class="btn">Play now</a>
+                        <a href="#how" class="btn btn-ghost">How to play</a>
+                    </div>
+                </div>
+                <div class="deco" aria-hidden="true">
+                    <span class="x">X</span><span class="o">O</span><span class="x">X</span>
+                    <span></span><span class="o win">O</span><span class="x">X</span>
+                    <span class="o">O</span><span class="x win">X</span><span class="o">O</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Game -->
+        <section id="play" class="section">
+            <div class="container">
+                <h2 class="center">Ready to play?</h2>
+                <p class="section-sub center">Pick a mode and start. X always goes first.</p>
+
+                <div class="card game">
+                    <div class="modes" role="group" aria-label="Game mode">
+                        <button class="mode active" id="modePvp" type="button">2 Players</button>
+                        <button class="mode" id="modeCpu" type="button">vs Computer</button>
+                        <button class="mode" id="modeOnline" type="button">Online</button>
+                    </div>
+
+                    <!-- Computer difficulty -->
+                    <div class="level" id="levelRow" hidden>
+                        <label for="level">Difficulty</label>
+                        <select id="level">
+                            <option value="easy">Easy</option>
+                            <option value="hard">Hard (unbeatable)</option>
+                        </select>
+                    </div>
+
+                    <!-- Online play panel -->
+                    <div class="online" id="onlinePanel" hidden>
+                        <div id="onlineLocked">
+                            <p>Log in to play with a friend online.</p>
+                            <button class="btn btn-small" id="onlineLoginBtn" type="button">Login</button>
+                        </div>
+
+                        <div id="onlineMenu" hidden>
+                            <button class="btn" id="createBtn" type="button">Create room</button>
+                            <p class="or">or join a friend</p>
+                            <div class="join-row">
+                                <input type="text" id="roomInput" placeholder="Room code" maxlength="5" autocomplete="off" aria-label="Room code">
+                                <button class="btn btn-ghost" id="joinBtn" type="button">Join</button>
+                            </div>
+                        </div>
+
+                        <div id="roomInfo" hidden>
+                            <p class="room-line">Room code: <strong id="roomCode"></strong></p>
+                            <div class="room-actions">
+                                <button class="btn btn-ghost btn-small" id="copyBtn" type="button">Copy code</button>
+                                <button class="btn btn-ghost btn-small" id="leaveBtn" type="button">Leave room</button>
+                            </div>
+                        </div>
+
+                        <p class="online-msg" id="onlineMsg" role="status"></p>
+                    </div>
+
+                    <p class="status" id="status">Player X&rsquo;s turn</p>
+                    <div class="board" id="board" aria-label="Tic-Tac-Toe board"></div>
+
+                    <div class="scores">
+                        <div class="score x"><span id="nameX">Player X</span><strong id="scoreX">0</strong></div>
+                        <div class="score"><span>Draws</span><strong id="scoreD">0</strong></div>
+                        <div class="score o"><span id="nameO">Player O</span><strong id="scoreO">0</strong></div>
+                    </div>
+
+                    <div class="actions">
+                        <button class="btn" id="newBtn" type="button">New game</button>
+                        <button class="btn btn-ghost" id="resetBtn" type="button">Reset scores</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features -->
+        <section id="features" class="section alt">
+            <div class="container">
+                <h2 class="center">Why you will like it</h2>
+                <p class="section-sub center">Simple to open, fun to play.</p>
+                <div class="feature-list">
+                    <article class="feature">
+                        <div class="icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8"/></svg>
+                        </div>
+                        <h3>Play with friends</h3>
+                        <p>Share one screen, or send a room code and play online.</p>
+                    </article>
+                    <article class="feature">
+                        <div class="icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="5" width="14" height="14" rx="2"/><path d="M9 1v4M15 1v4M9 19v4M15 19v4M1 9h4M1 15h4M19 9h4M19 15h4"/></svg>
+                        </div>
+                        <h3>Unbeatable Hard mode</h3>
+                        <p>The computer checks every possible move using the minimax algorithm.</p>
+                    </article>
+                    <article class="feature">
+                        <div class="icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/></svg>
+                        </div>
+                        <h3>Works everywhere</h3>
+                        <p>Fully responsive, so it plays smoothly on phones, tablets and laptops.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- How to play -->
+        <section id="how" class="section">
+            <div class="container">
+                <h2 class="center">How to play</h2>
+                <ol class="steps">
+                    <li><h3>Take turns</h3><p>Players place X and O in empty squares, one move at a time.</p></li>
+                    <li><h3>Make a line</h3><p>Get three of your marks in a row: across, down or diagonally.</p></li>
+                    <li><h3>Win or draw</h3><p>First to make a line wins. If the board fills up, it is a draw.</p></li>
+                </ol>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container footer-inner">
+            <p>&copy; 2026 TicTacToe. All rights reserved.</p>
+            <p>Created by Eashak Raen | SkillCraft Technology Internship</p>
+        </div>
+    </footer>
+
+    <!-- Login / Register dialog -->
+    <dialog id="authDialog" class="dialog" aria-label="Login or register">
+        <button class="dialog-close" id="closeDialog" type="button" aria-label="Close">&times;</button>
+        <div class="tabs">
+            <button class="tab active" id="tabLogin" type="button">Login</button>
+            <button class="tab" id="tabRegister" type="button">Register</button>
+        </div>
+        <form id="authForm" novalidate>
+            <label for="authUser">Username</label>
+            <input type="text" id="authUser" maxlength="15" autocomplete="username" placeholder="Enter username">
+
+            <label for="authPass">Password</label>
+            <input type="password" id="authPass" autocomplete="current-password" placeholder="Enter password">
+
+            <div id="confirmRow" hidden>
+                <label for="authPass2">Confirm password</label>
+                <input type="password" id="authPass2" autocomplete="new-password" placeholder="Repeat password">
+            </div>
+
+            <p class="form-error" id="authError" role="alert"></p>
+            <button class="btn" id="authSubmit" type="submit">Login</button>
+        </form>
+        <p class="dialog-note">Accounts are saved only in this browser.</p>
+    </dialog>
+
+    <!-- PeerJS: connects two browsers for online play -->
+    <script src="https://cdn.jsdelivr.net/npm/peerjs@1.5.4/dist/peerjs.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
